@@ -1,5 +1,6 @@
 package com.svalero.biblioteca.dao;
 
+import com.svalero.biblioteca.domain.Reservation;
 import com.svalero.biblioteca.domain.ReservationDetail;
 import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
@@ -16,9 +17,15 @@ public interface ReservationDao {
     @SqlUpdate("UPDATE reservations SET status = 'Cancelada' WHERE reservationId = :reservationId")
     void cancelReservation(@Bind("reservationId") int reservationId);
 
-    // Y en ReservationDao
-    @SqlQuery("SELECT r.reservationId, r.bookId, r.userId, r.reservationDate, r.status, b.title as bookTitle FROM reservations r JOIN books b ON r.bookId = b.bookid")
-    @RegisterRowMapper(ReservationDetailMapper.class)
-    List<ReservationDetail> getAllReservations();
+    @SqlQuery("SELECT * FROM reservations")
+    @RegisterRowMapper(ReservationMapper.class)
+    List<Reservation> getAllReservations();
 
+    @SqlQuery("SELECT r.*, b.title as bookTitle FROM reservations r INNER JOIN books b ON r.bookId = b.bookId WHERE r.userId = :userId")
+    @RegisterRowMapper(ReservationDetailMapper.class)
+        //
+    List<ReservationDetail> findReservationsByUserId(@Bind("userId") int userId);
+
+    @SqlUpdate("UPDATE reservations SET status = :status WHERE reservationId = :reservationId")
+    void updateReservationStatus(@Bind("reservationId") int reservationId, @Bind("status") String status);
 }

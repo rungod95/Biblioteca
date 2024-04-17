@@ -33,12 +33,13 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("userId", user.getUserId());
                 session.setAttribute("role", user.getRole());
+                session.setAttribute("userName", user.getFirstName() + " " + user.getLastName()); // Guarda el nombre completo
                 out.print("success"); // Envía "success" si el login es correcto
             } else {
                 out.print("failure"); // Envía "failure" si las credenciales son incorrectas
             }
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // Configura el código de estado adecuado
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); //
             out.print("error"); // Envía "error" si ocurre un error del servidor
         }
         out.flush();

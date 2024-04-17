@@ -16,7 +16,7 @@ public class ReservationDetailMapper implements RowMapper<ReservationDetail> {
                 rs.getInt("userId"),
                 rs.getDate("reservationDate"),
                 rs.getString("status"),
-                rs.getString("bookTitle") // Asegurarse de que 'bookTitle' es el alias correcto en la consulta SQL
+                rs.getString("bookTitle") //
         );
     }
 }

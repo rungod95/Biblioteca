@@ -17,5 +17,7 @@ public class ReservationMapper implements RowMapper<Reservation> {
                 rs.getDate("reservationDate"),
                 rs.getString("status")
         );
+
     }
 }
+
