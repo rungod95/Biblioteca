@@ -16,6 +16,5 @@ public class Loan {
     private Date loanDate;
     private Date expectedReturnDate;
     private Date actualReturnDate;
-
-    // Constructor, getters y setters
+    private String bookTitle;  // Añade esto para almacenar el título del libro
 }

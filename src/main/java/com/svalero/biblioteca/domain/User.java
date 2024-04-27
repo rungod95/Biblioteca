@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class User {
-    private int userid; // Cambiado de String a int, asumiendo que USERID es numérico
+    private int userid; //
     private String firstName;
     private String lastName;
     private String email;

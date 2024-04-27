@@ -8,18 +8,20 @@ import java.sql.Date;
 @Setter
 @Getter
 public class ReservationDetail {
-
-    // Getters y setters
-    private int reservationId;
-    private int bookId;
-    private int userId;
-    private Date reservationDate;
-    private String status;
-    private String bookTitle; // Título del libro
+    public int reservationId;
+    public int bookId;
+    public int userId;
+    public Date reservationDate;
+    public String status;
+    public String bookTitle; // Título del libro
 
     // Constructor
     public ReservationDetail(int reservationId, int bookId, int userId, Date reservationDate, String status, String bookTitle) {
-        this.status = this.status;
-        this.bookTitle = this.bookTitle;
+        this.reservationId = reservationId;
+        this.bookId = bookId;
+        this.userId = userId;
+        this.reservationDate = reservationDate;
+        this.status = status;
+        this.bookTitle = bookTitle;
     }
 }

@@ -18,17 +18,17 @@ public class RemoveBook extends HttpServlet {
         int bookId = Integer.parseInt(request.getParameter("bookId"));
 
         try {
-            // No hay necesidad de llamar a Database.connect(); directamente obtenemos la instancia de Jdbi
+
             int affectedRows = Database.getInstance().withExtension(BookDao.class,
                     dao -> dao.removeBook(bookId));
             if (affectedRows > 0) {
-                response.sendRedirect("books.jsp?message=Book removed successfully");
+                response.sendRedirect("index.jsp?message=Book removed successfully");
             } else {
-                response.sendRedirect("books.jsp?error=Book could not be removed");
+                response.sendRedirect("index.jsp?error=Book could not be removed");
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            response.sendRedirect("books.jsp?error=Invalid book ID");
+            response.sendRedirect("index.jsp?error=Invalid book ID");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

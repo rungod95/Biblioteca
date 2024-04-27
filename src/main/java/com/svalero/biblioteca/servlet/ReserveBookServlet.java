@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 @WebServlet("/reserveBook")
 public class ReserveBookServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Asegúrate de que el usuario esté logueado antes de proceder con la reserva
+
         if (request.getSession().getAttribute("userId") == null) {
             // Si no hay usuario logueado, redirige al login
             response.sendRedirect("login.jsp?error=" + URLEncoder.encode("Por favor inicia sesión para reservar libros.", StandardCharsets.UTF_8));
@@ -42,7 +42,7 @@ public class ReserveBookServlet extends HttpServlet {
                 return null;
             });
 
-            response.sendRedirect("reservations.jsp");  // Asegúrate de que 'reservations.jsp' existe
+            response.sendRedirect("listReservations");  //
         } catch (Exception e) {
             // Si ocurre una excepción, redirige a una página que sabes que existe
             response.sendRedirect("index.jsp?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));  // Asume que 'errorPage.jsp' existe

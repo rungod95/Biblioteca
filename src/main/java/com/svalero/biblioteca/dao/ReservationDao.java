@@ -23,9 +23,15 @@ public interface ReservationDao {
 
     @SqlQuery("SELECT r.*, b.title as bookTitle FROM reservations r INNER JOIN books b ON r.bookId = b.bookId WHERE r.userId = :userId")
     @RegisterRowMapper(ReservationDetailMapper.class)
-        //
     List<ReservationDetail> findReservationsByUserId(@Bind("userId") int userId);
 
     @SqlUpdate("UPDATE reservations SET status = :status WHERE reservationId = :reservationId")
     void updateReservationStatus(@Bind("reservationId") int reservationId, @Bind("status") String status);
+
+    @SqlUpdate("DELETE FROM reservations WHERE reservationId = :reservationId")
+    void deleteReservation(@Bind("reservationId") int reservationId);
+    @SqlQuery("SELECT r.reservationId, r.bookId, r.userId, r.reservationDate, r.status, b.title as bookTitle FROM reservations r INNER JOIN books b ON r.bookId = b.bookId WHERE r.reservationId = :reservationId")
+    @RegisterRowMapper(ReservationDetailMapper.class)
+    ReservationDetail findReservationById(@Bind("reservationId") int reservationId);
+
 }

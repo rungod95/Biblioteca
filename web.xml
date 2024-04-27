@@ -24,6 +24,19 @@
         <url-pattern>/listReservations</url-pattern>
     </servlet-mapping>
 
-    <!-- Otros servlets y mapeos -->
+    <servlet>
+        <servlet-name>EditBook</servlet-name>
+        <servlet-class>com.svalero.biblioteca.servlet.EditBook</servlet-class>
+        <multipart-config>
+            <location>/tmp</location>
+            <max-file-size>20848820</max-file-size> <!-- ejemplo: 20MB -->
+            <max-request-size>418018841</max-request-size> <!-- ejemplo: 40MB -->
+            <file-size-threshold>1048576</file-size-threshold> <!-- ejemplo: 1MB -->
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditBook</servlet-name>
+        <url-pattern>/edit-book</url-pattern>
+    </servlet-mapping>
 
 </web-app>

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface BookDao {
 
-    @SqlUpdate("INSERT INTO books (title, author, isbn, edition, publication_year, category, quantity,Photo) VALUES (:title, :author, :isbn, :edition, :publication_year, :category, :quantity, Photo)")
+    @SqlUpdate("INSERT INTO books (title, author, isbn, edition, publication_year, category, quantity, Photo) VALUES (:title, :author, :isbn, :edition, :publication_year, :category, :quantity, :Photo)")
     int addBook(@Bind("title") String title,
                 @Bind("author") String author,
                 @Bind("isbn") String isbn,
@@ -19,6 +19,7 @@ public interface BookDao {
                 @Bind("category") String category,
                 @Bind("quantity") int quantity,
                 @Bind("Photo") String Photo);
+
 
     @SqlQuery("SELECT * FROM books")
     @RegisterRowMapper(BookMapper.class)
@@ -45,9 +46,15 @@ public interface BookDao {
     @SqlUpdate("UPDATE books SET quantity = quantity - 1 WHERE bookid = :bookid AND quantity > 0")
     int decreaseBookQuantity(@Bind("bookid") int bookId);
 
+    @SqlQuery("SELECT * FROM books WHERE title LIKE :search OR author LIKE :search OR category LIKE :search")
+    @RegisterRowMapper(BookMapper.class)
+    List<BookS> searchBooks(@Bind("search") String search);
 
-    @SqlUpdate("UPDATE books SET quantity = quantity + 1 WHERE bookid = :bookId")
-    int increaseBookQuantity(@Bind("bookId") int bookId);
+
+
+
+    @SqlUpdate("UPDATE books SET quantity = quantity + 1 WHERE bookId = :bookId")
+    void increaseBookQuantity(@Bind("bookId") int bookId);
     @SqlQuery("SELECT quantity FROM books WHERE bookid = :bookId")
     int getBookQuantity(@Bind("bookId") int bookId);
 

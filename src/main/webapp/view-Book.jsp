@@ -3,6 +3,7 @@
 <%@ page import="com.svalero.biblioteca.domain.BookS" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="includes/header.jsp"%>
 
 <main>
     <section class="py-5 text-center container">
@@ -32,3 +33,4 @@
         </div>
     </div>
 </main>
+<%@include file="includes/footer.jsp" %>

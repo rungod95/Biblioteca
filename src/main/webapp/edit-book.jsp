@@ -7,77 +7,84 @@
 
 <script>
     $(document).ready(function () {
-        $("#edit-button").click(function (event) {
-            event.preventDefault();
-            const form = $("#edit-form")[0];
-            const data = new FormData(form);
-
-            $("#edit-button").prop("disabled", true);
-
-            $.ajax({
-                type: "POST",
-                enctype: "multipart/form-data",
-                url: "edit-book",  // Asegúrate de que la URL corresponda a tu servlet de edición de libros
-                data: data,
-                processData: false,
-                contentType: false,
-                cache: false,
-                timeout: 600000,
-                success: function (data) {
-                    $("#result").html(data);
-                    $("#edit-button").prop("disabled", false);
-                },
-                error: function (error) {
-                    $("#result").html(error.responseText);
-                    $("#edit-button").prop("disabled", false);
-                }
-            });
-        });
+        // Asegúrate de que el script AJAX está bien configurado si decides usarlo para la carga.
     });
 </script>
 
-<%
-        if (!"admin".equals(role)) {
-        response.sendRedirect("/library");
-        return;
-    }
-
-    int bookId;
-    BookS book = null;
-    if (request.getParameter("bookId") == null) {
-        bookId = 0;
-    } else {
-        bookId = Integer.parseInt(request.getParameter("bookId"));
-        try {
-            book = Database.getInstance().withExtension(BookDao.class, dao -> dao.getBook(bookId));
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-%>
-
 <main>
     <section class="py-5 container">
-        <% if (bookId == 0) { %>
+            <%
+            role = (String) request.getSession().getAttribute("role");
+            if (!"admin".equals(role)) {
+                response.sendRedirect("/biblioteca");
+                return;
+            }
+
+            int bookId  ;  // Inicialización predeterminada
+            BookS book = null;
+            String bookIdParam = request.getParameter("bookId");
+            if (bookIdParam != null && !bookIdParam.isEmpty()) {
+                bookId = Integer.parseInt(bookIdParam);
+                try {
+book = Database.getInstance().withExtension(BookDao.class, dao -> dao.getBook(bookId));} catch (ClassNotFoundException e) {
+    throw new RuntimeException(e);
+}
+            }else {bookId=0;}
+        %>
+
+            <% if (bookId == 0) { %>
         <h1>Registrar nuevo Libro</h1>
-        <% } else { %>
+            <% } else { %>
         <h1>Modificar Libro</h1>
-        <% } %>
-        <form class="row g-3 needs-validation" novalidate method="post" enctype="multipart/form-data" id="edit-form">
-            <!-- Campos específicos para libros (título, autor, etc.) -->
+            <% } %>
+
+        <form class="row g-3 needs-validation" novalidate method="post" action="<%=request.getContextPath()%>/edit-book" enctype="multipart/form-data" id="edit-form">
             <div class="mb-3">
                 <label for="title" class="form-label">Título</label>
-                <input type="text" name="title" class="form-control" id="title"
-                    <% if (book != null) { %> value="<%= book.getTitle() %>" <% } %> required>
+                <input type="text" name="title" class="form-control" id="title" value="<%= book != null ? book.getTitle() : "" %>" required>
             </div>
 
-            <!-- Añade más campos según sea necesario -->
+            <div class="mb-3">
+                <label for="author" class="form-label">Autor</label>
+                <input type="text" name="author" class="form-control" id="author" value="<%= book != null ? book.getAuthor() : "" %>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="isbn" class="form-label">ISBN</label>
+                <input type="text" name="isbn" class="form-control" id="isbn" value="<%= book != null ? book.getIsbn() : "" %>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="edition" class="form-label">Edición</label>
+                <input type="text" name="edition" class="form-control" id="edition" value="<%= book != null ? book.getEdition() : "" %>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="publicationYear" class="form-label">Año de Publicación</label>
+                <input type="number" name="publicationYear" class="form-control" id="publicationYear" value="<%= book != null ? book.getPublicationYear() : "" %>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="category" class="form-label">Categoría</label>
+                <input type="text" name="category" class="form-control" id="category" value="<%= book != null ? book.getCategory() : "" %>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Cantidad</label>
+                <input type="number" name="quantity" class="form-control" id="quantity" value="<%= book != null ? book.getQuantity() : 0 %>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="photo" class="form-label">Foto del Libro</label>
+                <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+            </div>
 
             <div class="col-12">
-                <input type="submit" value="Guardar" id="edit-button"/>
+                <button type="submit" class="btn btn-primary" id="edit-button">Guardar</button>
             </div>
             <input type="hidden" name="bookId" value="<%= bookId %>"/>
         </form>
+
         <br/>
         <div id="result"></div>
     </section>

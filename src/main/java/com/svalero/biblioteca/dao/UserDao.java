@@ -39,7 +39,7 @@ public interface UserDao {
     @SqlUpdate("DELETE FROM users WHERE email = :email")
     void removeUser(@Bind("email") String email);
 
-    // Método para obtener un usuario por correo electrónico y contraseña (considera usar hashing para comparación)
+    // Método para obtener un usuario por correo electrónico y contraseña
     @SqlQuery("SELECT * FROM users WHERE email = :email AND password = :password")
     @RegisterRowMapper(UserMapper.class)
     User getUserByCredentials(@Bind("email") String email, @Bind("password") String password);

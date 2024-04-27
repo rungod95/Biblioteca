@@ -31,14 +31,14 @@ public class RegisterServlet extends HttpServlet {
         String role = "user"; // Asignar el rol "user" por defecto
 
         try {
-            // Aquí asumimos que tienes un método `addUser` que acepta estos parámetros
+
             Database.getInstance().withExtension(UserDao.class, dao -> {
                 dao.addUser(firstName, lastName, email, phoneNumber, address, role, hashedPassword);
                 return null; // Dependiendo de cómo esté configurado tu método, es posible que necesites retornar algo aquí
             });
 
             // Redirige o muestra un mensaje de éxito después de registrar al usuario
-            // Por ejemplo:
+
             response.sendRedirect("/biblioteca/login.jsp"); // Redirige al usuario a la página de inicio de sesión
         } catch (Exception e) {
             // Manejar la excepción adecuadamente

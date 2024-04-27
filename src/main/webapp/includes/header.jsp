@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html>
 <head>
@@ -31,7 +32,8 @@
                     Bienvenido, <%= userName %>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="reservations.jsp">Mis reservas</a></li>
+                    <li><a class="dropdown-item" href="<c:url value='/listReservations'/>">Mis reservas</a></li>
+                    <li><a class="dropdown-item" href="<c:url value='/listLoans'/>">Libros Prestados</a></li>
                     <li><a class="dropdown-item" href="profile.jsp">Mi perfil</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="logout">Cerrar sesión</a></li>

@@ -6,7 +6,7 @@ import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import static com.svalero.biblioteca.util.Constants.*;
 
 public class Database {
-    private static Jdbi jdbi = null;
+    public static Jdbi jdbi = null;
 
     public static Jdbi getInstance() throws ClassNotFoundException {
         Class.forName("oracle.jdbc.driver.OracleDriver");

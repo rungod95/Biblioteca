@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="includes/header-login.jsp"%>
+<%@include file="includes/header.jsp" %>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -11,7 +12,7 @@
                 data: formData,
                 success: function(response) {
                     if (response === "success") {
-                        // Redirige al usuario al index o página deseada tras un inicio de sesión exitoso
+
                         window.location.href = "/biblioteca/index.jsp";
                     } else {
                         // Si la respuesta es "failure", muestra un mensaje de error

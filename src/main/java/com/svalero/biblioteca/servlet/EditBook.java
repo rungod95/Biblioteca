@@ -2,30 +2,59 @@ package com.svalero.biblioteca.servlet;
 
 import com.svalero.biblioteca.dao.BookDao;
 import com.svalero.biblioteca.dao.Database;
+import com.svalero.biblioteca.domain.BookS;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 @WebServlet("/edit-book")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024, // 1 MB
+        maxFileSize = 1024 * 1024 * 5, // 5 MB
+        maxRequestSize = 1024 * 1024 * 5 * 5 // 25 MB
+)
 public class EditBook extends HttpServlet {
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
 
         HttpSession currentSession = request.getSession();
-        if (currentSession.getAttribute("role") != null && !currentSession.getAttribute("role").equals("admin")) {
-            response.sendRedirect("/library"); // Asumiendo "/library" es tu página principal o de error
+        if (!"admin".equals(currentSession.getAttribute("role"))) {
+            response.sendRedirect("/biblioteca"); // Redirección a la página principal si no es admin
             return;
         }
 
-        try {
-            if (hasValidationErrors(request, response))
-                return;
+        String uploadDirectory = getServletContext().getRealPath("/uploads");
+        File fileSaveDir = new File(uploadDirectory);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdir();
+        }
 
+        Part filePart = request.getPart("photo"); // Asegúrate de que 'photo' es el nombre usado en el campo del formulario
+        String fileName = filePart.getSubmittedFileName(); // ¿El nombre del archivo está llegando correctamente?
+        String photoPath;
+
+        if (fileName != null && !fileName.isEmpty()) {
+            File file = new File(uploadDirectory, fileName);
+            try (InputStream fileContent = filePart.getInputStream()) {
+                Files.copy(fileContent, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+            photoPath = "/uploads/" + fileName;
+        } else {
+            photoPath = "/images/default-book.jpg"; // Usar imagen predeterminada solo si es un nuevo libro y no se ha subido ninguna foto
+        }
+
+        try {
             int bookId = request.getParameter("bookId") != null ? Integer.parseInt(request.getParameter("bookId")) : 0;
             String title = request.getParameter("title");
             String author = request.getParameter("author");
@@ -34,29 +63,24 @@ public class EditBook extends HttpServlet {
             int publicationYear = Integer.parseInt(request.getParameter("publicationYear"));
             String category = request.getParameter("category");
             int quantity = Integer.parseInt(request.getParameter("quantity"));
-            String Photo = request.getParameter("Photo");
 
-            // Utiliza la instancia de Jdbi directamente sin llamar a connect()
             if (bookId == 0) {
-                Database.getInstance().withExtension(BookDao.class, dao -> dao.addBook(title, author, isbn, edition, publicationYear, category, quantity, Photo));
-                response.sendRedirect("/library/books?message=Book added successfully");
+                String finalPhotoPath = photoPath;
+                Database.getInstance().withExtension(BookDao.class, dao -> dao.addBook(title, author, isbn, edition, publicationYear, category, quantity, finalPhotoPath));
             } else {
-                Database.getInstance().withExtension(BookDao.class, dao -> dao.updateBook(bookId, title, author, isbn, edition, publicationYear, category, quantity, Photo));
-                response.sendRedirect("/library/books?message=Book updated successfully");
+                // Si es una actualización y no se subió una nueva foto, deberías recuperar la existente
+                if (photoPath.equals("/images/default-book.jpg")) {
+                    BookS book = Database.getInstance().withExtension(BookDao.class, dao -> dao.getBook(bookId));
+                    photoPath = book.getPhoto();
+                }
+                String finalPhotoPath1 = photoPath;
+                Database.getInstance().withExtension(BookDao.class, dao -> dao.updateBook(bookId, title, author, isbn, edition, publicationYear, category, quantity, finalPhotoPath1));
             }
-        } catch (NumberFormatException | IOException e) {
+            response.sendRedirect("/biblioteca?message=Book updated successfully");
+        } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/library/books?error=Error processing the request");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            String errorMessage = URLEncoder.encode("Error processing the request: " + e.getMessage(), StandardCharsets.UTF_8);
+            response.sendRedirect("/biblioteca?error=" + errorMessage);
         }
     }
-
-    private boolean hasValidationErrors(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Implementa aquí la lógica para validar los campos requeridos como título, autor, etc.
-        // y enviar mensajes de error apropiados
-        return false; // Ejemplo: return true si hay errores
-    }
 }
-
-
