@@ -17,7 +17,7 @@ public class LoanMapper implements RowMapper<Loan> {
         Date loanDate = rs.getDate("loanDate");
         Date expectedReturnDate = rs.getDate("expectedReturnDate");
         Date actualReturnDate = rs.getDate("actualReturnDate");
-        String bookTitle = rs.getString("bookTitle");  // Asegúrate de que esta columna está siendo seleccionada en la consulta SQL
+        String bookTitle = rs.getString("bookTitle");
 
         if (rs.wasNull()) {
             actualReturnDate = null;

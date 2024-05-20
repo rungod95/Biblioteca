@@ -40,8 +40,8 @@ public class EditBook extends HttpServlet {
             fileSaveDir.mkdir();
         }
 
-        Part filePart = request.getPart("photo"); // Asegúrate de que 'photo' es el nombre usado en el campo del formulario
-        String fileName = filePart.getSubmittedFileName(); // ¿El nombre del archivo está llegando correctamente?
+        Part filePart = request.getPart("photo");
+        String fileName = filePart.getSubmittedFileName();
         String photoPath;
 
         if (fileName != null && !fileName.isEmpty()) {
@@ -51,7 +51,7 @@ public class EditBook extends HttpServlet {
             }
             photoPath = "/uploads/" + fileName;
         } else {
-            photoPath = "/images/default-book.jpg"; // Usar imagen predeterminada solo si es un nuevo libro y no se ha subido ninguna foto
+            photoPath = "/images/default-book.jpg"; //
         }
 
         try {
@@ -68,7 +68,7 @@ public class EditBook extends HttpServlet {
                 String finalPhotoPath = photoPath;
                 Database.getInstance().withExtension(BookDao.class, dao -> dao.addBook(title, author, isbn, edition, publicationYear, category, quantity, finalPhotoPath));
             } else {
-                // Si es una actualización y no se subió una nueva foto, deberías recuperar la existente
+
                 if (photoPath.equals("/images/default-book.jpg")) {
                     BookS book = Database.getInstance().withExtension(BookDao.class, dao -> dao.getBook(bookId));
                     photoPath = book.getPhoto();

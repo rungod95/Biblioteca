@@ -27,7 +27,7 @@
             <label for="password">Contraseña</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
-        <!-- Más campos según se necesite -->
+
         <button class="w-100 btn btn-lg btn-primary" type="submit">Registrarse</button>
     </form>
 </main>

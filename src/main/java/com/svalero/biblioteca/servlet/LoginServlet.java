@@ -36,18 +36,14 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("userName", user.getFirstName() + " " + user.getLastName()); // Guarda el nombre completo
                 out.print("success"); // Envía "success" si el login es correcto
             } else {
-                out.print("failure"); // Envía "failure" si las credenciales son incorrectas
+                out.print("failure");
             }
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); //
-            out.print("error"); // Envía "error" si ocurre un error del servidor
+            out.print("error");
         }
         out.flush();
         out.close();
     }
 
-    // Método para verificar la contraseña usando BCrypt
-    private boolean checkPassword(String plainTextPassword, String hashedPassword) {
-        return BCrypt.checkpw(plainTextPassword, hashedPassword);
-    }
-}
+   }

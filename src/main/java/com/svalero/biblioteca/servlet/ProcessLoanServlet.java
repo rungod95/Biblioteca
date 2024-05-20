@@ -54,7 +54,7 @@ public class ProcessLoanServlet extends HttpServlet {
     private Date calculateExpectedReturnDate(Date loanDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(loanDate);
-        calendar.add(Calendar.DAY_OF_MONTH, 30); // Asume un préstamo de 30 días
+        calendar.add(Calendar.DAY_OF_MONTH, 30);
         return new Date(calendar.getTimeInMillis());
     }
 }

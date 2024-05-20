@@ -50,7 +50,8 @@ public interface BookDao {
     @RegisterRowMapper(BookMapper.class)
     List<BookS> searchBooks(@Bind("search") String search);
 
-
+    @SqlUpdate("UPDATE books SET is_Active = :isActive WHERE bookId = :bookId")
+    void changeBookVisibility(@Bind("bookId") int bookId, @Bind("isActive") int isActive);
 
 
     @SqlUpdate("UPDATE books SET quantity = quantity + 1 WHERE bookId = :bookId")

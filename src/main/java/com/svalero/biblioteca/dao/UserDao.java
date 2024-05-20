@@ -27,21 +27,20 @@ public interface UserDao {
                  @Bind("role") String role,
                  @Bind("password") String password);
 
-    @SqlUpdate("UPDATE users SET firstName = :firstName, lastName = :lastName, email = :email, phoneNumber = :phoneNumber, address = :address, role = :role, password = :password WHERE email = :email")
-    void updateUser(@Bind("email") String email,
-                    @Bind("firstName") String firstName,
-                    @Bind("lastName") String lastName,
-                    @Bind("phoneNumber") String phoneNumber,
-                    @Bind("address") String address,
-                    @Bind("role") String role,
-                    @Bind("password") String password);
+    @SqlUpdate("UPDATE users SET firstName = :firstName, lastName = :lastName, email = :email, phoneNumber = :phoneNumber, address = :address WHERE userId = :userId")
+    void updateUser(@Bind("userId") int userId, @Bind("firstName") String firstName, @Bind("lastName") String lastName, @Bind("email") String email, @Bind("phoneNumber") String phoneNumber, @Bind("address") String address);
 
-    @SqlUpdate("DELETE FROM users WHERE email = :email")
-    void removeUser(@Bind("email") String email);
 
-    // Método para obtener un usuario por correo electrónico y contraseña
-    @SqlQuery("SELECT * FROM users WHERE email = :email AND password = :password")
-    @RegisterRowMapper(UserMapper.class)
-    User getUserByCredentials(@Bind("email") String email, @Bind("password") String password);
+    @SqlQuery("SELECT password FROM users WHERE userId = :userId")
+    String getPasswordByUserId(@Bind("userId") int userId);
+
+    @SqlUpdate("UPDATE users SET password = :password WHERE userId = :userId")
+    void updatePassword(@Bind("userId") int userId, @Bind("password") String password);
+
+    @SqlQuery("SELECT password FROM users WHERE email = :email")
+    String getPasswordByUserEmail(@Bind("email") String email);
+
+
+
 
 }

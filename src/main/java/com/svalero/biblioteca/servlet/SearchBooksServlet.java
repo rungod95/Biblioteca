@@ -33,7 +33,7 @@ public class SearchBooksServlet extends HttpServlet {
             request.getRequestDispatcher("searchresults.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            // Enviar al usuario a una página de error si algo sale mal
+
             response.sendRedirect("error.jsp?message=" + URLEncoder.encode("Error during book search: " + e.getMessage(), "UTF-8"));
         }
     }

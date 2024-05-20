@@ -7,7 +7,7 @@
 
 <script>
     $(document).ready(function () {
-        // Asegúrate de que el script AJAX está bien configurado si decides usarlo para la carga.
+
     });
 </script>
 
@@ -20,7 +20,7 @@
                 return;
             }
 
-            int bookId  ;  // Inicialización predeterminada
+            int bookId  ;
             BookS book = null;
             String bookIdParam = request.getParameter("bookId");
             if (bookIdParam != null && !bookIdParam.isEmpty()) {

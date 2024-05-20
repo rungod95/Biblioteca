@@ -4,6 +4,10 @@
 <%@ page import="java.sql.SQLException" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="includes/header.jsp"%>
+<head>
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/sign-in.css'/>">
+    <title></title>
+</head>
 
 <main>
     <section class="py-5 text-center container">
@@ -20,7 +24,7 @@
     %>
     <div class="container">
         <div class="card">
-            <img src="<%= book.getPhoto() %>" class="card-img-top" alt="Portada del libro">
+            <img src="<%= request.getContextPath() + book.getPhoto() %>" class="card-img-top" alt="Portada del libro">
             <div class="card-body">
                 <h5 class="card-title"><%= book.getTitle() %></h5>
                 <p class="card-text">Autor: <%= book.getAuthor() %></p>

@@ -22,12 +22,12 @@ public class CancelReservationServlet extends HttpServlet {
                 ReservationDao reservationDao = handle.attach(ReservationDao.class);
                 BookDao bookDao = handle.attach(BookDao.class);
 
-                // Primero obtenemos la información de la reserva para saber qué libro incrementar
+
                 ReservationDetail reservation = reservationDao.findReservationById(reservationId);
                 if (reservation != null) {
-                    // Incrementamos la cantidad de libros disponibles
+                    // Incrementa la cantidad de libros disponibles
                     bookDao.increaseBookQuantity(reservation.getBookId());
-                    // Ahora eliminamos la reserva
+                    // ELIMINA LA RESERVA
                     reservationDao.deleteReservation(reservationId);
                 } else {
                     throw new ServletException("No se encontró la reserva con ID: " + reservationId);

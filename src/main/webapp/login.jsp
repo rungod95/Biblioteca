@@ -13,14 +13,14 @@
                 success: function(response) {
                     if (response === "success") {
 
-                        window.location.href = "/biblioteca/index.jsp";
+                        window.location.href = "/biblioteca/listBooks";
                     } else {
-                        // Si la respuesta es "failure", muestra un mensaje de error
+
                         $("#result").html("<div class='alert alert-danger' role='alert'>Email o contraseña inválidos.</div>");
                     }
                 },
                 error: function(error) {
-                    // Maneja otros posibles errores de AJAX
+
                     $("#result").html("<div class='alert alert-danger' role='alert'>Error en el proceso de login.</div>");
                 }
             });

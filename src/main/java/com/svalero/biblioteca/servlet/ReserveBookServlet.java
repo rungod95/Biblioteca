@@ -44,7 +44,7 @@ public class ReserveBookServlet extends HttpServlet {
 
             response.sendRedirect("listReservations");  //
         } catch (Exception e) {
-            // Si ocurre una excepción, redirige a una página que sabes que existe
+
             response.sendRedirect("index.jsp?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8));  // Asume que 'errorPage.jsp' existe
         }
     }

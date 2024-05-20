@@ -29,7 +29,7 @@ public class ListReservationsServlet extends HttpServlet {
                 List<ReservationDetail> myReservations = Database.getInstance()
                         .withExtension(ReservationDao.class, dao -> dao.findReservationsByUserId(userId));
 
-                // Imprimir el número de reservas encontradas
+
                 System.out.println("Reservas encontradas: " + myReservations.size());
 
                 if (!myReservations.isEmpty()) {
@@ -45,7 +45,6 @@ public class ListReservationsServlet extends HttpServlet {
                 response.sendRedirect("error.jsp?error=" + URLEncoder.encode("Error al recuperar las reservas.", StandardCharsets.UTF_8));
             }
         } else {
-            // Si no hay sesión o userId, redirige al login o muestra un mensaje
             response.sendRedirect("login.jsp?error=" + URLEncoder.encode("Por favor inicia sesión para ver tus reservas.", StandardCharsets.UTF_8));
         }
     }
