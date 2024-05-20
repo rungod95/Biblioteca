@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="includes/header.jsp" %>
+
 <main class="container mt-5">
     <h1 class="text-center mb-3">Mis Reservas</h1>
     <div class="table-responsive">

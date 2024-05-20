@@ -37,6 +37,7 @@
                     <li><a class="dropdown-item" href="<c:url value='/listReservations'/>">Mis reservas</a></li>
                     <li><a class="dropdown-item" href="<c:url value='/listLoans'/>">Libros Prestados</a></li>
                     <li><a class="dropdown-item" href="profile.jsp">Mi perfil</a></li>
+                    <li><a class="dropdown-item" href="<c:url value='/view-requests'/>">Ver Mis Solicitudes</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="logout">Cerrar sesión</a></li>
                 </ul>
