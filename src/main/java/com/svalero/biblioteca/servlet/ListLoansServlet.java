@@ -20,6 +20,7 @@ public class ListLoansServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
+        final String[] searchQuery = {request.getParameter("searchQuery")};
 
         if (userId == null) {
             response.sendRedirect("login.jsp");
@@ -34,10 +35,17 @@ public class ListLoansServlet extends HttpServlet {
         }
         List<Loan> loans = jdbi.withHandle(handle -> {
             LoanDao loanDao = handle.attach(LoanDao.class);
-            return loanDao.findLoansByUserId(userId);
+            if (searchQuery[0] != null && !searchQuery[0].trim().isEmpty()) {
+                searchQuery[0] = "%" + searchQuery[0].trim() + "%";
+                return loanDao.searchLoans(searchQuery[0], userId);
+            } else {
+                return loanDao.findLoansByUserId(userId);
+            }
         });
 
         request.setAttribute("loans", loans);
         request.getRequestDispatcher("loans.jsp").forward(request, response);
     }
-}
+
+    }
+

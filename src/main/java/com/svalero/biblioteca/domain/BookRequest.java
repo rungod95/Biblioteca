@@ -17,6 +17,6 @@ public class BookRequest {
     private String isbn;
     private String urgencyLevel;
     private Date requestDate;
-    private String firstName;
-    private String lastName;
+    private String firstName;  // Añadido
+    private String lastName;   // Añadido
 }

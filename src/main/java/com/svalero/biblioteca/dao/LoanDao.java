@@ -8,7 +8,7 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 import java.sql.Date;
 import java.util.List;
-
+@RegisterRowMapper(LoanMapper.class)
 public interface LoanDao {
 
     @SqlUpdate("INSERT INTO loans (bookId, userId, loanDate, expectedReturnDate) VALUES (:bookId, :userId, :loanDate, :expectedReturnDate)")
@@ -21,6 +21,17 @@ public interface LoanDao {
     @SqlQuery("SELECT l.*, b.title as bookTitle FROM loans l JOIN books b ON l.bookId = b.bookId WHERE l.userId = :userId")
     @RegisterRowMapper(LoanMapper.class)
     List<Loan> findLoansByUserId(@Bind("userId") int userId);
+
+    @SqlQuery("SELECT l.*, b.title as bookTitle FROM loans l JOIN books b ON l.bookId = b.bookId WHERE l.userId = :userId AND (" +
+            "b.title LIKE :search OR " +
+            "TO_CHAR(l.loanDate, 'DD/MM/YYYY') LIKE :search OR " +
+            "TO_CHAR(l.expectedReturnDate, 'DD/MM/YYYY') LIKE :search)")
+    List<Loan> searchLoans(@Bind("search") String search, @Bind("userId") int userId);
+
+
+
+    @SqlQuery("SELECT l.*, b.title as bookTitle FROM loans l JOIN books b ON l.bookId = b.bookId")
+    List<Loan> getAllLoans();
 
 }
 

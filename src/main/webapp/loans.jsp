@@ -4,6 +4,12 @@
 <%@include file="includes/header.jsp"%>
 <main class="container mt-5">
     <h1 class="text-center mb-3">Préstamos Activos</h1>
+    <form class="mb-4" action="listLoans" method="get">
+        <div class="input-group">
+            <input type="text" class="form-control" name="searchQuery" placeholder="Buscar préstamos..." aria-label="Buscar préstamos">
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+        </div>
+    </form>
     <table class="table table-hover table-striped">
         <thead class="table-dark">
         <tr>

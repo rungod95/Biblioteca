@@ -18,8 +18,8 @@ public class BookRequestMapper implements RowMapper<BookRequest> {
                 rs.getString("isbn"),
                 rs.getString("urgencyLevel"),
                 rs.getDate("requestDate"),
-                rs.getString("firstName"), // Añadir
-                rs.getString("lastName")   // Añadir
+                rs.getString("firstName"),   // Añadido
+                rs.getString("lastName")     // Añadido
         );
     }
 }
