@@ -25,8 +25,8 @@ public class ViewBookRequestsServlet extends HttpServlet {
         try {
             List<BookRequest> bookRequests = Database.getInstance().withExtension(BookRequestDao.class, dao -> {
                 if (searchQuery[0] != null && !searchQuery[0].isEmpty()) {
-                    searchQuery[0] = "%" + searchQuery[0].trim().toLowerCase() + "%";  // Convertir a minúsculas para coincidir con SQL
-                    return dao.searchBookRequests(searchQuery[0]);
+                    searchQuery[0] = "%" + searchQuery[0].toLowerCase().trim() + "%";
+                    return dao.searchBookRequests(searchQuery[0], userId, role);
                 } else {
                     if ("admin".equals(role)) {
                         return dao.getAllRequests();
@@ -43,4 +43,5 @@ public class ViewBookRequestsServlet extends HttpServlet {
             throw new ServletException("Error al obtener las solicitudes de libros", e);
         }
     }
+
 }

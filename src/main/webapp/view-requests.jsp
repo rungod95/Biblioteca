@@ -33,6 +33,7 @@
                     <td colspan="4" class="text-center">No hay solicitudes de libros.</td>
                 </tr>
             </c:if>
+            <a href="request-book.jsp" class="btn btn-primary">Solicitar un nuevo libro</a>
             <c:forEach items="${bookRequests}" var="request">
                 <tr class="<c:choose>
                            <c:when test='${request.urgencyLevel == "High"}'>table-danger</c:when>
@@ -49,6 +50,7 @@
             </c:forEach>
             </tbody>
         </table>
+
     </div>
 </main>
 <%@include file="includes/footer.jsp" %>

@@ -20,7 +20,16 @@ public interface BookRequestDao {
 
     @SqlQuery("SELECT br.*, u.firstName, u.lastName FROM BookRequests br JOIN Users u ON br.userId = u.userId WHERE br.userId = :userId")
     List<BookRequest> getRequestsByUser(@Bind("userId") int userId);
-    @SqlQuery("SELECT br.*, u.firstName, u.lastName FROM BookRequests br JOIN Users u ON br.userId = u.userId WHERE LOWER(br.bookTitle) LIKE :search OR LOWER(br.author) LIKE :search OR LOWER(br.isbn) LIKE :search OR LOWER(br.urgencyLevel) LIKE :search")
-    List<BookRequest> searchBookRequests(@Bind("search") String search);
+    @SqlQuery("SELECT br.*, u.firstName, u.lastName FROM BookRequests br JOIN Users u ON br.userId = u.userId " +
+            "WHERE (:role = 'admin' AND (" +
+            "LOWER(u.firstName) LIKE :search OR LOWER(u.lastName) LIKE :search OR " +
+            "LOWER(br.bookTitle) LIKE :search OR LOWER(br.author) LIKE :search OR " +
+            "LOWER(br.isbn) LIKE :search OR LOWER(br.urgencyLevel) LIKE :search)) " +
+            "OR (:role <> 'admin' AND u.userId = :userId AND (" +
+            "LOWER(br.bookTitle) LIKE :search OR LOWER(br.author) LIKE :search OR " +
+            "LOWER(br.isbn) LIKE :search OR LOWER(br.urgencyLevel) LIKE :search))")
+    List<BookRequest> searchBookRequests(@Bind("search") String search, @Bind("userId") int userId, @Bind("role") String role);
+
+
 
 }

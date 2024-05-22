@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="includes/header-login.jsp"%>
-<%@include file="includes/header.jsp" %>
+
 
 <script type="text/javascript">
     $(document).ready(function() {
